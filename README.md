@@ -44,6 +44,27 @@ apm install TeXmeijin/agent-skills --target agent-skills,claude,codex
 apm install -g TeXmeijin/agent-skills --target agent-skills,claude,codex
 ```
 
+個別のスキルだけをインストールする場合:
+
+```sh
+apm install -g TeXmeijin/agent-skills --skill pj-flow --target agent-skills,claude,codex
+```
+
+複数のスキルを選ぶ場合:
+
+```sh
+apm install -g TeXmeijin/agent-skills \
+  --skill pj-flow \
+  --skill codex-exec \
+  --target agent-skills,claude,codex
+```
+
+すべてのスキルに戻す場合:
+
+```sh
+apm install -g TeXmeijin/agent-skills --skill '*' --target agent-skills,claude,codex
+```
+
 ## ローカル開発
 
 ローカルで編集する場合は、このリポジトリを source of truth にして、各実行環境のスキル配置先へ symlink します。
