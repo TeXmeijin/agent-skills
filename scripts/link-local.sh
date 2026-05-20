@@ -17,6 +17,7 @@ skills=(
   commit-push
   harness-creator
   ggg
+  pj-flow
 )
 
 link_one() {
