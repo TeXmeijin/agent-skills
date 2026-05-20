@@ -1,6 +1,7 @@
 ---
 name: harness-creator
-description: 検証可能な「ハーネス」を構築する。ハーネス＝ある対象を機械的に駆動して検証する自家製の仕組み。規模で 2 形態に分かれる：**unit harness**（特定の操作・ファイル変更・コードパスに差し込む小さな自動検証。hook / CI step / lint runner 等。最小要件は Red/Green 機械判定のみ）と **system harness**（施策・プロジェクト全体を覆い、複数の検証点・進捗・成果物を一括管理する大きな仕組み。最小要件は REPF: Red/Green 観測 + Progress 追跡 + Executable artifacts + Flow 文書）。複数の unit harness が集まって system harness を構成しうる。トリガー：「ハーネスを作って」「harness を構築」「RED/GREEN で観測したい」「再発防止のフックを差し込みたい」「失敗が許されない作業の前準備」「複数の検証点を一括管理したい」。**コピペ用 HTML / Markdown 手順書 / チェックリスト単独はハーネスではない**（機械的検証 R が無いため）。依頼が抽象的なら最初に規模（unit / system）を確認すること。
+description: >-
+  検証可能な「ハーネス」を構築する。ハーネス＝ある対象を機械的に駆動して検証する自家製の仕組み。規模で 2 形態に分かれる：**unit harness**（特定の操作・ファイル変更・コードパスに差し込む小さな自動検証。hook / CI step / lint runner 等。最小要件は Red/Green 機械判定のみ）と **system harness**（施策・プロジェクト全体を覆い、複数の検証点・進捗・成果物を一括管理する大きな仕組み。最小要件は REPF: Red/Green 観測 + Progress 追跡 + Executable artifacts + Flow 文書）。複数の unit harness が集まって system harness を構成しうる。トリガー：「ハーネスを作って」「harness を構築」「RED/GREEN で観測したい」「再発防止のフックを差し込みたい」「失敗が許されない作業の前準備」「複数の検証点を一括管理したい」。**コピペ用 HTML / Markdown 手順書 / チェックリスト単独はハーネスではない**（機械的検証 R が無いため）。依頼が抽象的なら最初に規模（unit / system）を確認すること。
 ---
 
 # harness-creator
