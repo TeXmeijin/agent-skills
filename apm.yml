@@ -1,0 +1,9 @@
+name: agent-skills
+version: 0.1.0
+description: Public agent skills for Claude Code, Codex, and other agent runtimes.
+
+targets:
+  - agent-skills
+  - claude
+  - codex
+
