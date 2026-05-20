@@ -1,47 +1,48 @@
 # Agent Skills
 
-Reusable agent skills for Claude Code, Codex, and other runtimes that support the Agent Skills directory layout.
+Claude Code、Codex、その他 Agent Skills のディレクトリ構成に対応した実行環境で使うための汎用スキル集です。
 
-This repository is organized as an APM package:
+このリポジトリは APM package として、次の形式でスキルを配置しています。
 
 ```text
 .apm/skills/<skill-name>/SKILL.md
 ```
 
-## Skills
+## スキル一覧
+### 日常利用
+- `commit-push` - このスレッドで変更したファイルだけを commit / push する。
+- `non-committed-analyzer` - 未コミット変更を読み、コミット分割案や検証手順を出す。
+- `ggg` - 最新性が重要な質問で Web 検索に基づいて回答するように強制する。
+- `isis` - Issue やチケットを実装前の仮説として調査・整理する。
+- `goal-template-generator` - ラフな依頼を、実行可能な GOAL テンプレートに整える。
+- `codex-exec` - Codex CLI に rescue / review タスクを委譲する。
+- `codex-collab-review` - Claude Code と Codex CLI で協働レビューを行う。
+- `prompt-refiner` - 雑な coding 依頼を、別の agent に渡せる prompt に整える。
 
-- `ghostty-applescript` - write Ghostty AppleScript layout scripts.
-- `cloudwatch-logs-insights-query` - write and validate CloudWatch Logs Insights QL queries.
-- `goal-template-generator` - turn rough work requests into execution-ready GOAL templates.
-- `prompt-refiner` - refine rough coding requests into prompts for another coding agent.
-- `non-committed-analyzer` - inspect uncommitted changes and propose commit splits.
-- `yarn-classic-to-pnpm` - migrate or audit Yarn Classic to pnpm dependency drift.
-- `isis` - investigate issues and tickets as hypotheses before implementation.
-- `codex-exec` - delegate rescue/review tasks to Codex CLI.
-- `codex-collab-review` - run a Claude Code and Codex CLI collaborative review workflow.
-- `commit-push` - commit and push only files changed in the current thread.
-- `harness-creator` - build verification harnesses with mechanical Red/Green checks.
-- `ggg` - force web-backed answers for freshness-sensitive questions.
+### 特定のタスク
+- `ghostty-applescript` - Ghostty の AppleScript レイアウトを作成する。
+- `cloudwatch-logs-insights-query` - CloudWatch Logs Insights QL のクエリを作成・検証する。
+- `yarn-classic-to-pnpm` - Yarn Classic から pnpm への移行や依存バージョン差分を監査する。
+- `harness-creator` - Red/Green を機械判定できる検証ハーネスを作る。
 
-## Install With APM
+## APM でインストール
 
 ```sh
 apm install TeXmeijin/agent-skills --target agent-skills,claude,codex
 ```
 
-For user-scope install:
+ユーザースコープにインストールする場合:
 
 ```sh
 apm install -g TeXmeijin/agent-skills --target agent-skills,claude,codex
 ```
 
-## Local Development
+## ローカル開発
 
-For local authoring, keep this repository as the source of truth and symlink the skill directories into the runtime locations:
+ローカルで編集する場合は、このリポジトリを source of truth にして、各実行環境のスキル配置先へ symlink します。
 
 ```sh
 ./scripts/link-local.sh
 ```
 
-The script backs up existing real directories before replacing them with symlinks.
-
+このスクリプトは、既存の実ディレクトリをバックアップしてから symlink に置き換えます。
