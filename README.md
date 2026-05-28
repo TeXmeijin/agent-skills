@@ -31,6 +31,7 @@
 - `ghostty-applescript` - Ghostty 対応のレイアウトを AppleScript で実装する。
 - `cloudwatch-logs-insights-query` - CloudWatch Logs Insights QL のクエリを作成・検証する。
 - `yarn-classic-to-pnpm` - Yarn Classic から pnpm v11+ への移行をしつつ、依存バージョン差分を監査して、Patch Versionに至るまでバージョン差異を報告する。
+- `centering-judge` - 画像の整列 (中央揃え / 左端揃え / 間隔均等 等) を画素単位で判定するスクリプトを、 命題ごとに新規実装して走らせる skill。LLM の主観で「揃ってる」と誤判定するのを防ぐためのメタ手法。 固定スクリプトは持たず、 共通道具箱 (背景マスク / content profile / debug overlay 等) と参考実装を提供する。
 
 ## APM でインストール
 

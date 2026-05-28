@@ -18,6 +18,7 @@ skills=(
   harness-creator
   ggg
   pj-flow
+  centering-judge
 )
 
 link_one() {
