@@ -147,6 +147,28 @@ cp -r "<pj-flow-skill-dir>/templates/$SYSTYPE" \
 purposeは自由語彙。よく使う: `concrete` / `implementation` / `reconcrete` / `spike` / `pivot` / `fix`。
 **雛形は2系統のみ**（concrete系=情報収集 / implementation系=実装）。purposeに応じて中身を書き換える。
 
+#### Implementation Readiness（高リスク既存改修の実装前ゲート）
+
+implementation / fix / pivot Thread で、以下のいずれかに該当する場合は、実装タスクに入る前に `OBJECTIVE.md` の「実装前コード理解」を埋める。
+
+- 歴史の長い既存機能を改修する
+- 変更対象が複数 repo / 複数レイヤーにまたがる
+- shared component / domain model / API contract / migration に触る
+- 既存仕様・既存挙動を壊すリスクがある
+- ユーザー自身が後でレビュー不能になりそうな規模
+- AI がそのコードベースをこの Thread でまだ読んでいない
+
+このゲートでは、キーとなるファイル、既存の処理フロー、守るべき不変条件、最小変更の差し込み位置を確認する。キーとなるファイルを特定できない、既存挙動を説明できない、守るべき不変条件が不明な場合は、implementation に進まず concrete / spike / reconcrete に戻す。
+
+ユーザーが自分でも読めるよう、キーとなるファイルは可能な限りローカルマシン上の指定済みエディタまたはファイラーで開く。GUI と TUI は分けて扱う。
+
+1. GUI アプリで開く場合は、現在の実行環境から直接起動する（例: Zed）。Ghostty の別タブを経由して GUI アプリを起動しない。**先にプロジェクトルート（LSP ルート＝ `composer.json` / `package.json` 等のある階層）をプロジェクトとして開いてから、個別ファイルを開く。** いきなりファイルだけを開くと LSP が立ち上がらず補完・定義ジャンプが効かず読みにくい。`sandbox` で `zed` 直接起動が Mach error になる場合は `open -a Zed <projectDir>` → `open -a Zed <files...>` の順で代替する
+2. TUI で開く場合は、Ghostty 上で動いており AppleScript Automation が使えるなら、新タブまたは分割ペインで起動してよい（例: `nvim`, `yazi`）
+3. ファイル単位で GUI / TUI 起動が適さない場合は macOS の Finder reveal を使う（例: `open -R`）
+4. 実際に開けない場合は、同等のワンライナーを `pbcopy` して、ユーザーが貼って実行できる状態にする
+
+Ghostty 操作は TUI 起動のための補助に限る。Ghostty 操作が失敗しても本筋を止めない。Codex アプリ等で UI 操作ツールが利用できる場合も、同じ原則でユーザーの目に見える場所にキーコードを開く。
+
 ### 2.4 Thread終了 + pbcopy（シナリオ#4）
 
 1. OUTPUT.md を **Done定義に従って書き切る**。曖昧な「だいたい書けた」では閉じない
