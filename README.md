@@ -29,6 +29,7 @@
 
 ### UIデザイン
 - `centering-judge` - 画像の整列 (中央揃え / 左端揃え / 間隔均等 等) を画素単位で判定するスクリプトを、 命題ごとに新規実装して走らせる skill。LLM の主観で「揃ってる」と誤判定するのを防ぐためのメタ手法。 固定スクリプトは持たず、 共通道具箱 (背景マスク / content profile / debug overlay 等) と参考実装を提供する。
+- `image-redaction` - 社内情報や固有情報を含むスクリーンショットを、公開方針に合わせてピンポイントにマスクする。画像ごとに専用スクリプトで文字行座標を計算し、ffmpeg/ImageMagickで公開用画像を生成する。
 
 ### 特定のタスク
 - `ghostty-applescript` - Ghostty 対応のレイアウトを AppleScript で実装する。

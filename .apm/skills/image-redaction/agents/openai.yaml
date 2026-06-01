@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Redaction"
+  short_description: "Mask sensitive text in screenshots for public sharing."
+  default_prompt: "社内情報を含むスクリーンショットを、公開方針に合わせてピンポイントにマスクしてください。専用スクリプトで座標を計算し、画像を生成してスレッド内に貼ってください。"
