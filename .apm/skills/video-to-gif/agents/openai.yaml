@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video to GIF"
+  short_description: "Convert videos and screen recordings into optimized GIFs."
+  default_prompt: "この動画を、ドキュメントや記事に貼りやすい軽量なGIFに変換してください。必要ならトリミング、幅、FPSを調整して、出力GIFを確認してください。"

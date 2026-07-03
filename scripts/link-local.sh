@@ -20,6 +20,7 @@ skills=(
   pj-flow
   centering-judge
   image-redaction
+  video-to-gif
 )
 
 link_one() {
@@ -48,7 +49,7 @@ for skill in "${skills[@]}"; do
   link_one "${HOME}/.claude/skills" "$skill"
 done
 
-for skill in cloudwatch-logs-insights-query goal-template-generator yarn-classic-to-pnpm image-redaction; do
+for skill in cloudwatch-logs-insights-query goal-template-generator yarn-classic-to-pnpm image-redaction video-to-gif; do
   link_one "${HOME}/.codex/skills" "$skill"
 done
 
