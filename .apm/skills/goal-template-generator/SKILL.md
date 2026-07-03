@@ -1,6 +1,6 @@
 ---
 name: goal-template-generator
-description: "Generate an execution-ready GOAL template before work begins. Use this whenever the user mentions GOAL, /goal, task template, work brief, execution prompt, agent handoff, or when a request is multi-step, high-impact, security-sensitive, investigative, verification-heavy, or likely to suffer from vague success criteria. The skill turns a rough task into GOAL / CONTEXT / CONSTRAINTS / PRIORITY / PLAN / DONE WHEN / VERIFY / OUTPUT / STOP RULES, with uncertainties and recommended defaults made explicit."
+description: "GOAL template generator. Use when the user asks for GOAL, /goal, task template, execution prompt, handoff, or a multi-step/high-risk/vague task brief; when product/design decisions need a question-driven decision funnel before implementation; or when another skill needs an execution-ready prompt with facts, decisions, verification, and stop rules made explicit."
 user-invocable: true
 ---
 
@@ -29,13 +29,41 @@ For very small and obvious tasks, do not force a long template. Produce a compac
 1. Classify the request.
 2. Identify the risk level.
 3. Run the Pre-GOAL Fact Pass before writing GOAL, CONTEXT, CONSTRAINTS, DONE WHEN, or VERIFY.
-4. Separate user decisions from facts that the agent can fetch independently.
-5. Ask the user only for unresolved upper-layer decisions that materially shape the GOAL.
-6. Generate the GOAL template only after facts and required decisions are clear enough.
-7. If the user asked for a prompt to paste into another agent, include a copy-paste-ready execution prompt.
-8. Do not start executing the underlying work unless the user explicitly asks to proceed after the template, or the current interaction clearly requires both template generation and execution.
+4. Decide whether the task is already template-ready or needs the Decision Funnel.
+5. Separate user decisions from facts that the agent can fetch independently.
+6. Ask the user only for unresolved upper-layer decisions that materially shape the GOAL.
+7. Generate the GOAL template only after facts and required decisions are clear enough.
+8. If the user asked for a prompt to paste into another agent, include a copy-paste-ready execution prompt.
+9. Do not start executing the underlying work unless the user explicitly asks to proceed after the template, or the current interaction clearly requires both template generation and execution.
 
 When the task itself is to make a plan or prompt, the GOAL template is the deliverable. When the user asked to execute a risky task directly, first produce the template and ask for acknowledgement only if the unresolved uncertainty can materially change the outcome.
+
+## Decision Funnel
+
+Use the Decision Funnel before writing the GOAL when the user is still shaping product behavior, visual design, game rules, UX policy, copy tone, workflow boundaries, or acceptance criteria. Do not rush these tasks into a template. The deliverable is first a decision ledger, then the GOAL.
+
+The funnel has five steps:
+
+1. Read the relevant sources and current implementation before suggesting decisions.
+   Completion criterion: the agent can name the source files, current behavior, and any existing decisions that constrain the discussion.
+2. Ask focused questions one layer at a time instead of enumerating a large questionnaire.
+   Completion criterion: each question can change the GOAL, constraints, or acceptance criteria.
+3. Keep a decision ledger during the conversation.
+   Completion criterion: every important point is classified into one of the buckets below.
+4. Before writing the GOAL, restate the ledger and let contradictions surface.
+   Completion criterion: confirmed, likely, autonomous, and open items do not contradict each other.
+5. Write the GOAL from the ledger, not from the last message alone.
+   Completion criterion: the template preserves the discussion's decisions and does not flatten tentative items into confirmed requirements.
+
+Decision ledger buckets:
+
+- `CONFIRMED DECISIONS`: user-approved or source-backed decisions. These become CONTEXT, CONSTRAINTS, DONE WHEN, or hard requirements.
+- `LIKELY DECISIONS`: not formally final, but directionally settled enough to use as recommended defaults. These become DEFAULT DECISIONS, not UNCERTAINTIES.
+- `AUTONOMOUS IMPROVEMENT AREAS`: areas where the user wants the implementing agent to iterate independently, such as screenshot-review-revise loops, copy tightening, spacing, visual polish, or test expansion. These become PLAN and VERIFY obligations with explicit acceptance checks.
+- `OPEN DECISIONS`: choices that remain genuinely unresolved and materially change the work. These become UNCERTAINTIES only if execution cannot safely proceed with a default.
+- `OUT OF SCOPE`: attractive but intentionally deferred work. These become CONSTRAINTS or STOP RULES.
+
+For visual/product work, `AUTONOMOUS IMPROVEMENT AREAS` must say what evidence the implementing agent should collect, such as screenshots, browser checks, gameplay logs, CLI output, or before/after notes. A vague instruction like "make it better" is not enough; turn it into an iteration loop the next agent can run and stop.
 
 ## Pre-GOAL Fact Pass
 
@@ -132,7 +160,7 @@ High-risk templates need explicit STOP RULES, a rollback or non-destructive path
 
 Do not ask open-ended questions by default. Prefer recommended defaults with rationale, but only after the Pre-GOAL Fact Pass.
 
-Use three separate buckets:
+Use four separate buckets:
 
 1. `CONFIRMED FACTS`: facts gathered from user instruction, files, code, logs, docs, commands, issues, PRs, or other primary sources.
 2. `BLOCKED FACTS`: facts the agent tried to gather but could not, with the reason and attempted method.
@@ -142,6 +170,16 @@ Use three separate buckets:
 `UNCERTAINTIES` in the final template should be reserved for `DECISIONS NEEDED`, not for agent laziness or unfetched context.
 
 Do not include an item in `UNCERTAINTIES` if `Needs user confirmation` would be `no`. Put that item in `DEFAULT DECISIONS` or fold it into the PLAN. `UNCERTAINTIES` are for unresolved user decisions or blockers that change the top-level goal, constraints, or approval boundary.
+
+When the Decision Funnel was used, map the decision ledger into the GOAL template as follows:
+
+- `CONFIRMED DECISIONS` -> CONTEXT, CONSTRAINTS, DONE WHEN, or VERIFY.
+- `LIKELY DECISIONS` -> DEFAULT DECISIONS with rationale.
+- `AUTONOMOUS IMPROVEMENT AREAS` -> PLAN and VERIFY, with concrete iteration loops and stopping checks.
+- `OPEN DECISIONS` -> UNCERTAINTIES only when no safe default exists.
+- `OUT OF SCOPE` -> CONSTRAINTS or STOP RULES.
+
+Do not promote a likely decision to a confirmed decision just because it appears in the latest user message. Preserve its confidence level unless the user explicitly confirms it or the source material makes it factual.
 
 Use this shape:
 
@@ -208,6 +246,25 @@ When the GOAL itself is a decision artifact, include a review loop in the PLAN:
 3. Apply comments and reply with what changed.
 4. Repeat until material comments are resolved.
 5. Only then proceed to publication, issue comment update, PR, or execution.
+
+### Product, Design, Or Spec-Shaping Work
+
+Use this when the user wants to clarify a rough product direction, screen design, game rule, copy system, onboarding flow, UX policy, acceptance criteria, or "what should good look like" before implementation.
+
+Run the Decision Funnel before producing the GOAL. The PLAN should include:
+
+1. Read current docs and implementation that define the behavior.
+2. Identify confirmed decisions, likely decisions, autonomous improvement areas, open decisions, and out-of-scope work.
+3. Ask one focused question at a time until the top-level decisions are stable enough.
+4. Write or update the decision artifact if the user asked for docs.
+5. Generate the GOAL prompt from that artifact.
+
+The DONE WHEN section should include both:
+
+- The decision artifact captures the agreed ToBe state.
+- The GOAL prompt can be executed by another agent without re-litigating settled decisions.
+
+For UI/game/product work, VERIFY should include observable review loops where useful, such as `screenshot -> critique -> revise -> screenshot`, gameplay log inspection, or manual scenario checks. Put these under PLAN/VERIFY as obligations, not as vague preferences.
 
 ### Security-Sensitive Work
 
@@ -309,11 +366,22 @@ Always output this structure unless a compact template is clearly better:
 ## BLOCKED FACTS
 - <Fact needed but not obtained> — <attempted method and blocker>
 
+## DEFAULT DECISIONS
+- <Likely or reversible decision the agent may proceed with> — <why it is safe or evidenced>
+
 ## GOAL
 <One clear, measurable mission. Avoid bundling unrelated outcomes.>
 
 ## CONTEXT
 <Relevant repo/project, files, issue/PR/logs, user intent, current state, and prior decisions. Mark unknowns clearly.>
+
+## DECISION LEDGER
+Include this section only when the Decision Funnel was used.
+
+- Confirmed decisions: <hard decisions, or "None beyond confirmed facts">
+- Likely decisions: <directionally settled choices, or "None">
+- Autonomous improvement areas: <areas the implementing agent should iterate on independently, or "None">
+- Out of scope: <deferred work, or "None">
 
 ## UNCERTAINTIES
 1. <User decision needed, not a fetchable fact>
@@ -331,9 +399,11 @@ Always output this structure unless a compact template is clearly better:
 
 ## PLAN
 1. <Understand and verify context first>
-2. <Do the narrow work>
-3. <Validate>
-4. <Report>
+2. <If needed, run the Decision Funnel or consume its ledger>
+3. <Do the narrow work>
+4. <Run autonomous improvement loops that the ledger assigned to the implementing agent>
+5. <Validate>
+6. <Report>
 
 ## DONE WHEN
 - <Observable final state>
@@ -385,12 +455,16 @@ Before returning the template, check:
 - Is the GOAL one mission, not a bundle?
 - Is the GOAL supported by confirmed facts or explicit user instruction?
 - Did the agent fetch cheap facts before asking the user?
+- If the task was product/design/spec-shaping work, did the agent run the Decision Funnel before producing the GOAL?
+- Are confirmed decisions, likely decisions, autonomous improvement areas, open decisions, and out-of-scope items kept distinct?
+- Are autonomous improvement areas converted into concrete PLAN/VERIFY loops instead of vague "polish" requests?
 - Are fetchable missing facts listed as BLOCKED FACTS, not UNCERTAINTIES?
 - Are UNCERTAINTIES actually user decisions?
 - Did the consistency pass remove contradictions between GOAL, PLAN, CONSTRAINTS, HITL, and STOP RULES?
 - Are user-specific tools or paths omitted unless they are safety-critical, documented project requirements, or explicitly requested?
 - If the template is long or high-risk, does it define how the draft will be reviewed and revised before execution/publication?
 - Are recommendations clearly separated from approved decisions?
+- Are likely decisions labeled as DEFAULT DECISIONS rather than silently promoted to confirmed facts?
 - Are DONE WHEN and VERIFY separate?
 - Are assumptions labeled?
 - Are constraints strong enough for the risk level?
