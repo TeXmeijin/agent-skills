@@ -19,6 +19,8 @@
 ### よりAgentに明確な指示を出す
 - `ggg` - 最新性が重要な質問で Web 検索に基づいて回答するように強制する。Web検索をサボってきたときに使う。
 - `goal-template-generator` - ラフな依頼を、実行可能な GOAL テンプレートに整える。`/goal`コマンドを次スレッドで使うための下準備。
+- `goal-prompt-enqueue` - 依頼を記憶ゼロの自律実行エージェント向けの自己完結GOALファイルに変換し、ホーム直下のキュー(`~/.goal-prompt-queue/inbox/`)に積む。夜間・長時間などの無人実行枠に作業を委譲したいときに使う。実行中に質問できない前提で、配置前に不確実性を潰し切る。
+- `goal-prompt-dispatch` - `goal-prompt-enqueue` が積んだGOALを1回の起動につき最大1件取り出し、記憶ゼロ前提で自律実行するランナー。定時トリガーから発火する想定で、`inbox → inprogress → done/error` の4フォルダで競合を避ける。Claude / Codex どちらからでも実行できる。
 - `isis` - Issue やチケットを実装前の仮説として調査・整理する。
 - `harness-creator` - Red/Green を機械判定できる検証ハーネスを作る。
 - `prompt-refiner` - 雑な coding 依頼を、別の agent に渡せる prompt に整える。goalの下位互換かも...
