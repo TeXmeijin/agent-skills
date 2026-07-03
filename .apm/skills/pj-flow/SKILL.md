@@ -32,8 +32,9 @@ description: PJ管理フロー（長期記憶＋Threadの積み上げ）を任�
 | 8 | **Import from artifacts**（外部成果物→PJ逆生成） | 「このPRからPJ作って」「Issue / Draft PR / branch から In Progress PJを起こして」 |
 | 9 | **Migration**（旧PJ管理→pj-flow規約） | 「`my-projects/`をマイグレ」「`.claude/initiatives/`を取り込んで」 |
 | 10 | **Self-improvement** | 「pj-flowここで止まらないで」「pbcopyのタイミング遅い」「SKILL更新して」 |
+| 11 | **棚卸し（Inventory triage）**（全PJを実データ照合して最新化） | 「棚卸しして」「全PJの状態を最新化」「staleなPJを洗い出して」「open のままになってるPJ整理して」 |
 
-**判断不能なら2つまでに絞ってAskUserQuestionで確認**。「stopせず進めろ」セッションでは推測で進めてOKだが、不可逆操作（Migration / Close）は確認を挟む。
+**判断不能なら2つまでに絞ってAskUserQuestionで確認**。「stopせず進めろ」セッションでは推測で進めてOKだが、不可逆操作（Migration / Close / 棚卸しのClose・archived化）は確認を挟む。
 
 ---
 
@@ -244,6 +245,25 @@ Migration は **git mv ベース**で履歴を保つ。1コミット = 1PJ移行
 
 詳細・自己改善時のアンチパターン: `references/self-improvement.md`。
 
+### 2.11 棚卸し（シナリオ#11） — 全PJを実データ照合して最新化
+
+「棚卸しして」「全PJの状態を最新化」と言われたとき。**長期記憶の frontmatter は信用せず、外部の実データ（GitHub PR state / Linear / AWS 等）と照合**して状態を直す。詳細手順・分類タクソノミ・per-category アクション: `references/inventory-triage.md`。
+
+骨子:
+1. **棚卸し（収集）**: §6 の grep で `in_progress` の全PJを列挙。各 `<slug>/CLAUDE.md` の frontmatter（`pr_url` / `branch` / `issue_url` / `updated_at`）を読む。
+2. **実データ照合**: `pr_url` があれば `gh pr view <url> --json state,mergedAt` で MERGED 確認。`issue_url` は Linear MCP / `gh issue view`。frontmatter が実態とズレていたら**実態を正**とする。
+3. **5分類に振り分け**（詳細は reference）:
+   - **A. マージ済みなのに open** → 実データ確認のうえ `closed`（frontmatter 欠落なら付与）
+   - **B. 稼働中・新規**（PR/Issue が直近更新・作成日が新しい）→ **触らない**
+   - **C. stale だが残作業実在** → **1件ずつ AskUserQuestion で方針確定**（残スコープ・非スコープ・次タスク）。確定内容を本文へ反映
+   - **D. 実質未着手 / productize 済み** → `archived`（削除はしない）
+   - **E. 残是正が散在** → 集約用の新規 remediation PJ を起こす（2.1）
+4. **不可逆操作は確認を挟む**: Close / archived 化 / 新規PJ作成は推測で確定しない（B・自明なAは確認不要）。
+5. **AIが代行できないアクションを最後に列挙**: AWS 書込み / MFA / 人手判断が要る残タスクを明示し、棚卸しから漏らさない。
+6. **最終サマリを表で報告**（分類別の件数・各PJの確定方針）。
+
+棚卸しでは新規Threadは原則切らない（frontmatter / 本文の更新が主）。残作業を再開するPJは別途 2.2（再開）へ。
+
 ---
 
 ## 3. 仕様変更インパクトの3分類（旧運用踏襲）
@@ -355,6 +375,7 @@ find "$WORKSPACE_ROOT" -maxdepth 5 -type d -name "my-projects" 2>/dev/null
 - `references/import-from-artifacts.md` — PR/Issue/コードからのPJ逆生成
 - `references/in-flight-adoption.md` — 途中昇格・途中合流のディテール
 - `references/self-improvement.md` — スキル自己改善の運用
+- `references/inventory-triage.md` — 全PJ棚卸し（実データ照合→5分類→最新化）の詳細手順
 
 ---
 
