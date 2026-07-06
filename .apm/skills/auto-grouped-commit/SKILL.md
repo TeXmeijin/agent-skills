@@ -1,9 +1,9 @@
 ---
-name: non-committed-analyzer
-description: 未コミットの変更ファイルを全て読み込み、施策の意図を分析し、コミット分割案・メッセージ候補・検証手順・テスト案を提示する。トリガー：「コミット分析」「変更まとめて」「何やってたっけ」「commit analyze」「未コミット確認」「変更の棚卸し」
+name: auto-grouped-commit
+description: 未コミットの変更ファイルを全て読み込み、施策の意図を分析し、推奨グループに分けて git add と git commit まで実行する。manual mode ではコミット分割案・メッセージ候補・検証手順・テスト案の提示で止める。トリガー：「auto grouped commit」「コミット分析」「変更まとめて」「何やってたっけ」「commit analyze」「未コミット確認」「変更の棚卸し」「コミットどう分ける」
 ---
 
-# Commit Analyzer
+# Auto Grouped Commit
 
 未コミットの変更（staged / unstaged / untracked）を全ファイル読み込み、施策の意図を推測した上で、コミット分割案・メッセージ候補・検証手順・テスト案を提示する。
 

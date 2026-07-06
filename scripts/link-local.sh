@@ -9,7 +9,7 @@ skills=(
   cloudwatch-logs-insights-query
   goal-template-generator
   prompt-refiner
-  non-committed-analyzer
+  auto-grouped-commit
   yarn-classic-to-pnpm
   isis
   codex-exec
