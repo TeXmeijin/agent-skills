@@ -1,5 +1,6 @@
 ---
 name: isis
+disable-model-invocation: true
 description: Issue/チケットの初期調査・前提検証・論点整理・意思決定支援を行う。また、会話中の雑な依頼やラフな指示を実行可能な作業定義へ再構成する。Issueも依頼も仮説として扱い、コードベースと事実に基づいて再評価する。トリガー：「このIssueについて調査して」「Issue分析」「チケット見て」「plan site」「このバグ見て」「TES-123調べて」やLinear/GitHub IssueのIDを渡されたとき。「この依頼整理して」「要件固めて」「これ何すればいい？」「雑だけどやりたい」「Issue精査」
 ---
 

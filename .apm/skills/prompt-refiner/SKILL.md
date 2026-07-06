@@ -1,5 +1,6 @@
 ---
 name: prompt-refiner
+disable-model-invocation: true
 description: Refines rough coding requests into execution-ready prompts. Use when the user gives a short, vague, frustrated, or under-specified implementation request and needs a better prompt for another coding agent.
 ---
 

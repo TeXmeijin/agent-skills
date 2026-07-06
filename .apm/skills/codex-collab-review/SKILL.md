@@ -1,5 +1,6 @@
 ---
 name: codex-collab-review
+disable-model-invocation: true
 description: Claude Code と Codex CLI が tmux ペインで協働してコードレビューを行う。独立レビュー→突き合わせ→議論・説得→合意形成の4段階。片方だけの指摘はもう片方に問い、同意が得られたもののみ最終指摘に掲載する。PR URL、ブランチ名、またはファイルパスを指定して使用する。トリガー：「Codexと一緒にレビュー」「協働レビュー」「Wチェックレビュー」「codex collab review」「ダブルチェックレビュー」
 ---
 

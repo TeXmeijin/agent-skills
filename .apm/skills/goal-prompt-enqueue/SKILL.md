@@ -1,5 +1,6 @@
 ---
 name: goal-prompt-enqueue
+disable-model-invocation: true
 description: "高性能モデルに後でまとめて実行させたい、気合を入れた高品質GOALプロンプトを1件ずつ書き上げ、ホーム直下のキュー(~/.goal-prompt-queue/inbox/)に貯めるスキル。貯めたGOALは対になる goal-prompt-dispatch が後から1件ずつ取り出して実行する。『GOAL作って貯めて』『自律実行に回して』『inboxに積んで』『後でまとめて実行させたい』『無人で進めておいて』と言われたとき、または長時間・高性能の実行枠に作業を委譲したいときに使う。実行時に質問できる相手がいない前提で、Pre-GOAL Fact Pass と Decision Funnel により配置前に不確実性を潰し切る点が goal-template-generator と異なる(あちらはチャットに返して終わり)。"
 user-invocable: true
 ---
