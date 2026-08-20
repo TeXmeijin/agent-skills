@@ -18,7 +18,7 @@
 - `video-to-gif` - 動画や画面録画を、記事・README・チャットに貼りやすい軽量なGIFへ変換する。
 
 ### よりAgentに明確な指示を出す
-- `ggg` - 最新性が重要な質問で Web 検索に基づいて回答するように強制する。Web検索をサボってきたときに使う。
+- `research` - Web検索と一次情報に基づいて、最新確認から広範な調査まで行う。
 - `goal-template-generator` - ラフな依頼を、実行可能な GOAL テンプレートに整える。`/goal`コマンドを次スレッドで使うための下準備。
 - `goal-prompt-enqueue` - 依頼を記憶ゼロの自律実行エージェント向けの自己完結GOALファイルに変換し、ホーム直下のキュー(`~/.goal-prompt-queue/inbox/`)に積む。夜間・長時間などの無人実行枠に作業を委譲したいときに使う。実行中に質問できない前提で、配置前に不確実性を潰し切る。
 - `goal-prompt-dispatch` - `goal-prompt-enqueue` が積んだGOALを1回の起動につき最大1件取り出し、記憶ゼロ前提で自律実行するランナー。定時トリガーから発火する想定で、`inbox → inprogress → done/error` の4フォルダで競合を避ける。Claude / Codex どちらからでも実行できる。
@@ -33,6 +33,9 @@
 ### UIデザイン
 - `centering-judge` - 画像の整列 (中央揃え / 左端揃え / 間隔均等 等) を画素単位で判定するスクリプトを、 命題ごとに新規実装して走らせる skill。LLM の主観で「揃ってる」と誤判定するのを防ぐためのメタ手法。 固定スクリプトは持たず、 共通道具箱 (背景マスク / content profile / debug overlay 等) と参考実装を提供する。
 - `image-redaction` - 社内情報や固有情報を含むスクリーンショットを、公開方針に合わせてピンポイントにマスクする。画像ごとに専用スクリプトで文字行座標を計算し、ffmpeg/ImageMagickで公開用画像を生成する。
+
+### 文章・執筆
+- `clean-ai-writing-style` - 日本語AI文章の徹底批評ループ。論理飛躍・知識飛躍・AIっぽい表現・構成の悪さを、読者知識→セクション→段落→表現の順に構造から直す。k16shikano氏の [japanese-tech-writing](https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d) / [cognitive-rhythm-writing](https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432) と併用する前提。
 
 ### 特定のタスク
 - `ghostty-applescript` - Ghostty 対応のレイアウトを AppleScript で実装する。
