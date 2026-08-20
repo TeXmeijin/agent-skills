@@ -1,6 +1,6 @@
-# Relentless Protocol
+# 適用プロトコル
 
-`SKILL.md` の relentless loop を、依頼タイプ別にどこまで適用するか決めるための参照。
+`SKILL.md` の批評ループを、依頼タイプ別にどこまで適用するか決めるための参照。
 
 ## Scope By Request
 

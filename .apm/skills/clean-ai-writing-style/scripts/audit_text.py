@@ -96,7 +96,7 @@ def main():
     end = args.end or len(lines)
     selected = lines[start - 1 : end]
 
-    print(f"# Relentless writing audit: {args.file}")
+    print(f"# Writing audit: {args.file}")
     print(f"Range: {start}-{end}")
     print()
 
